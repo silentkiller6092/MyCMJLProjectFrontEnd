@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import Cookies from "js-cookie";
 import nookies from "nookies";
 import { setCookie } from "nookies";
-const baseUUrl = process.env.BaseUrl;
+const baseUUrl = process.env.BASE_URL;
 const checkout = ({ products, categories, userCredential, reviewData }) => {
   const router = useRouter();
 
@@ -33,12 +33,12 @@ const checkout = ({ products, categories, userCredential, reviewData }) => {
       slug: products.data[0].attributes.slug,
       Description: limitedDescriptions(products.data[0].attributes.Description),
       ImageUrl:
-        "http://localhost:1337" +
+        `${process.env.LOCAL_URL}` +
         products.data[0].attributes.Images.data[0].attributes.formats.large.url,
     };
     setdata(productData);
 
-    let url = `http://localhost:1337/api/cart-addeds`;
+    let url = `${process.env.LOCAL_URL}/api/cart-addeds`;
     fetch(url, {
       method: "POST",
 
@@ -99,7 +99,7 @@ const checkout = ({ products, categories, userCredential, reviewData }) => {
       Product_Review: reviewValue.Review,
     };
     if (jwt) {
-      const response = fetch("http://127.0.0.1:1337/api/reviews", {
+      const response = fetch(`${process.env.BASE_URL}/api/reviews`, {
         method: "POST",
         headers: {
           "content-type": "application/json",
@@ -527,7 +527,7 @@ export async function getServerSideProps(context) {
   const cookies = nookies.get(context);
   const jwt = cookies.jwt;
 
-  const reviewsUrl = await fetch("http://127.0.0.1:1337/api/reviews");
+  const reviewsUrl = await fetch(`${process.env.BASE_URL}/api/reviews`);
   const reviewData = await reviewsUrl.json();
 
   let userDetails = await fetch(`${baseUUrl}/api/users/me`, {

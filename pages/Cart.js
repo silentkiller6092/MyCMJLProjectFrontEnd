@@ -19,7 +19,7 @@ const Cart = ({ products }) => {
   const deletCart = async (id) => {
     try {
       let response = await fetch(
-        "http://127.0.0.1:1337/api/cart-addeds/" + id,
+        `${process.env.BASE_URL}/api/cart-addeds/` + id,
         {
           method: "DELETE",
           headers: {
@@ -153,7 +153,7 @@ export async function getServerSideProps(context) {
 
   try {
     let userDetails = await fetch(
-      "http://127.0.0.1:1337/api/users/me?fields=email",
+      `${process.env.BASE_URL}/api/users/me?fields=email`,
       {
         headers: {
           Authorization: "Bearer " + jwt,
@@ -177,7 +177,7 @@ export async function getServerSideProps(context) {
     let userCredentials = await userDetails.json();
 
     let products = await fetch(
-      `http://127.0.0.1:1337/api/cart-addeds?filters[email]=${userCredentials.email}`,
+      `${process.env.BASE_URL}/api/cart-addeds?filters[email]=${userCredentials.email}`,
       {
         headers: {
           Authorization: "Bearer " + jwt,

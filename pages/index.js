@@ -88,7 +88,7 @@ export default function About({ products, carusaldata }) {
 
 export async function getServerSideProps(context) {
   let carusalItem = await fetch(
-    "http://127.0.0.1:1337/api/carusal-image?populate=*"
+    `${process.env.BASE_URL}/api/carusal-image?populate=*`
   );
   let carusaldata = await carusalItem.json();
   let products = await fetch(`${baseUUrl}/api/products?populate=*`);
